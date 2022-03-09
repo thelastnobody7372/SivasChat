@@ -35,17 +35,25 @@ public class Server {
 
                 String line = "";
 
+
                 while (Running)
                 {
+
                     try
                     {
 
-                        String Command = ConsoleReader.next();
+                        String Command =  "";
+                        line = in.readUTF();
+                        Pack pack = UnPack(line);
+                        if(pack.Sender.adminstration == Adminstration.Admin && pack.Message.startsWith("/")){
+                            Command = pack.Message.substring(1);
+                        }
                         if (Command == "stop"){
                             Running = false;
+                            System.out.println(Color.RED_BOLD + "[server] " + Color.RED_BRIGHT + "Shutting Down");
                         }
-                        line = in.readUTF();
-                        System.out.println(UnPack(line));
+                        System.out.println(Color.BLACK_BOLD + "[" + pack.Sender.UserName + "] " + Color.WHITE + pack.Message);
+
 
 
                     }
@@ -54,8 +62,6 @@ public class Server {
                         System.out.println(i);
                     }
                 }
-
-
 
             }catch (IOException e){
                 System.out.println(e);
